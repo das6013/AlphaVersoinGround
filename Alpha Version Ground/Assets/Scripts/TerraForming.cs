@@ -11,7 +11,7 @@ public class TerraForming : MonoBehaviour
     private const string Pk = "_PointOffset";
     [SerializeField] private Texture2D _texture;
     [SerializeField] private Material _marerial;
-    int random;
+    int randomo;
     private Color _colorDis;
     // Start is called before the first frame update
     void Start()
