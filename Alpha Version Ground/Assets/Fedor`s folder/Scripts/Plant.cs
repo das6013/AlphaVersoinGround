@@ -221,6 +221,8 @@ public class Plant : MonoBehaviour
                     
                 }
             }
+
+            // Здесь много нужно переделать. 
             int i = 0;
             foreach (Depletion itr in DPL)//Вычисления для шага 4.3
             {
@@ -234,7 +236,7 @@ public class Plant : MonoBehaviour
                     }
                     else
                     {
-                        DPL[i].mineralsLack = DPL[i].lackMaximum;
+                        DPL[i].mineralsLack += DPL[i].lackMaximum;
                     }
                 }
                 else
