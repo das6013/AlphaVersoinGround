@@ -1,2 +1,4 @@
-AlphaVersionGround/Logs/
-Logs/
+*.log
+Alpha Version Ground/Library/
+Alpha Version Ground/Logs/
+Alpha Version Ground/Temp/
