@@ -8,3 +8,5 @@
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
+*.log
+!/[Aa]ssets/**/*.meta
