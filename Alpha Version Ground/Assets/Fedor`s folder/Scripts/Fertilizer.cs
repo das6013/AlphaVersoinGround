@@ -6,7 +6,6 @@ using UnityEngine;
 // Очень много того же самого
 public class Fertilizer : MonoBehaviour
 {
-    //[SerializeField] private SoilFormation MySoilFormationRef;//нужен ли тут объект класса SoilFormation ? Если да - создать лист
     [SerializeField] private GameObject MySoilFormationRef;//если достаточно объекта (поидее да, т.к. используется только для сравнения -> можно просто число использовать)
     [SerializeField] private LayerMask SoilLayer;
     public float mineralsReserve;
@@ -16,12 +15,7 @@ public class Fertilizer : MonoBehaviour
     private Vector3 SFCenter;
     private int SFFlag = 0;
 
-    public Fertilizer(float newmineralsReserve, float newradius)
-    {
-        mineralsReserve = newmineralsReserve;
-        radius = newradius;
-    }
-    private void Destoyer()//поменять для оптимизации вызов функции: либо вставить её в Plant либо таймер свой
+    private void Destoyer()//Нужно удалить эту функцию, дестроейр переместить
     {
         if (mineralsReserve < 0.25)
         {
@@ -33,7 +27,7 @@ public class Fertilizer : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(SFCenter, SFRadius);
     }
-    private void GetMySoilFormationRef()
+    private void GetMySoilFormationRef()//Изменить логику в соответсвии с Decay по аналогии с Depletion - получать SoilFormation при создании  объекта
     {
         Collider[] hitColliders = Physics.OverlapSphere(SFCenter, SFRadius, SoilLayer);
         foreach (Collider collider in hitColliders)

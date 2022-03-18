@@ -139,10 +139,10 @@ public class Depletion : MonoBehaviour
         }
     }
 
-    public SetSoilFormation(GameObject SF)
-    {
-        MySoilFormationRef = SF;
-    }
+    //public void SetSoilFormation(GameObject SF)//сделать как сеттер для конструктора деплишн
+    //{
+    //    MySoilFormationRef = SF;
+    //}
 
 
     // Update is called once per frame

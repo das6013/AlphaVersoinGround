@@ -21,7 +21,8 @@ public class Decay : MonoBehaviour
     }
     private void GetMySoilFormationRef()
     {
-        // пределать Collider[] hitColliders = Physics.OverlapSphere(SFCenter, SFRadius, SoilLayer);
+         //пределать
+        Collider[] hitColliders = Physics.OverlapSphere(SFCenter, SFRadius, SoilLayer);
         foreach (Collider collider in hitColliders)
         {
             GameObject iterObjectHit = collider.gameObject;
@@ -31,28 +32,28 @@ public class Decay : MonoBehaviour
                 {
                     MySoilFormationRef = iterObjectHit;//вариант с GameObject, не с об. класса SoilFormation
                     SFFlag = 1;//пока ограничился одним, затем можно будет добавить логику для обновления привязки к слою земли.
-                    Invoke("AddFertLogic", 5f);//Станет фертилайзером спустя ... сек. лежания на земле
+                    Invoke("SpawnFetilizer", 5f);//Станет фертилайзером спустя ... сек. лежания на земле
                 }
             }
         }
     }
     // Start is called before the first frame update
-    private void AddFertLogic()
+    private void SpawnFetilizer()
     {
         Vector3 position = transform.position;
         Instantiate(FertilizerPrefab, position, Quaternion.identity);
         Destroy(gameObject);
     }
 
-    void OnCollisionEnter(Collider col)
-    {
+    //void OnCollisionEnter(Collider col)//Изменения получения MySoilFormationRef
+    //{
         //col.GetComponent())
-    }
+    //}
     // Update is called once per frame
     void Update() // #1 ненужный апдейт. колим в старте
     {
         SFCenter = transform.position;//для отрисовки сферы каста, затем убрать
-        if (SFFlag == 0)//потом можно будет добавить смену этого флага
+        if (SFFlag == 0)//потом можно будет добавить смену этого флага//От этого избавиться, но при поднятии с земли нужно очищать SoilFormation
         {
             GetMySoilFormationRef();
         }
