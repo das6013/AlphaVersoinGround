@@ -29,7 +29,7 @@ public class Depletion : MonoBehaviour
         mineralsLack -= 2;
         if (mineralsLack <= 0.25)
         {
-            Destroyer();
+            Destroy(gameObject, .5f);
         }
     }
 
@@ -105,14 +105,9 @@ public class Depletion : MonoBehaviour
         }
         if (mineralsLack <= 0.25)//удаление Depletion при восстановлении запаса минералов
         {
-            Destroyer();
+            Destroy(gameObject, .5f);
         }
         A.Clear();
-    }
-
-    public void Destroyer()//поменять для оптимизации вызов функции: либо вставить её в Plant либо таймер свой // Бесполезная функция) лишние строчки
-    {
-        Destroy(gameObject, .5f);
     }
 
     private void OnDrawGizmosSelected()//отрисовка OverlapSphere для GetMySoilFormationRef()

@@ -53,14 +53,14 @@
     <UnityVersion>2020.3.23f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Fedor`s folder\Scripts\Plant.cs" />
     <Compile Include="Assets\Fedor`s folder\Scripts\Fertilizer.cs" />
     <Compile Include="Assets\Fedor`s folder\Scripts\DepletionCreator.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\Decay.cs" />
     <Compile Include="Assets\Fedor`s folder\Scripts\Misc\SphereCaster.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\Plant.cs" />
     <Compile Include="Assets\Fedor`s folder\Scripts\SoilFormation.cs" />
     <Compile Include="Assets\Fedor`s folder\Scripts\Misc\BrickWall.cs" />
     <Compile Include="Assets\Fedor`s folder\Scripts\Depletion.cs" />
+    <Compile Include="Assets\Fedor`s folder\Scripts\Decay.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
