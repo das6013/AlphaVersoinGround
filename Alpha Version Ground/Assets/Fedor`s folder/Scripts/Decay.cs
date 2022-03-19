@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// #2 переделать на хит с колайдером
+// #3 Добавить логику на случай если объет поднят и перемещён.
 public class Decay : MonoBehaviour
 {
     [SerializeField] private GameObject MySoilFormationRef;
@@ -18,7 +21,7 @@ public class Decay : MonoBehaviour
     }
     private void GetMySoilFormationRef()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(SFCenter, SFRadius, SoilLayer);
+        // пределать Collider[] hitColliders = Physics.OverlapSphere(SFCenter, SFRadius, SoilLayer);
         foreach (Collider collider in hitColliders)
         {
             GameObject iterObjectHit = collider.gameObject;
@@ -41,8 +44,12 @@ public class Decay : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void OnCollisionEnter(Collider col)
+    {
+        //col.GetComponent())
+    }
     // Update is called once per frame
-    void Update()
+    void Update() // #1 ненужный апдейт. колим в старте
     {
         SFCenter = transform.position;//для отрисовки сферы каста, затем убрать
         if (SFFlag == 0)//потом можно будет добавить смену этого флага

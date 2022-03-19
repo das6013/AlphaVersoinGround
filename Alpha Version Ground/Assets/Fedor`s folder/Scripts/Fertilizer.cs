@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Очень много того же самого
 public class Fertilizer : MonoBehaviour
 {
     //[SerializeField] private SoilFormation MySoilFormationRef;//нужен ли тут объект класса SoilFormation ? Если да - создать лист
