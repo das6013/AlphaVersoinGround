@@ -139,10 +139,7 @@ public class Depletion : MonoBehaviour
         }
     }
 
-    public SetSoilFormation(GameObject SF)
-    {
-        MySoilFormationRef = SF;
-    }
+   
 
 
     // Update is called once per frame

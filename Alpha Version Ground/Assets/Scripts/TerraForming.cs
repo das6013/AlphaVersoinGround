@@ -5,37 +5,51 @@ using UnityEngine;
 public class TerraForming : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _spheres;
-    [SerializeField] private List<float> _coords;
     [SerializeField] private List<Color> _colorArray;
-    [SerializeField] private List<Vector4> _data;
-    private const string Pk = "_PointOffset";
-    [SerializeField] private Texture2D _texture;
+    [SerializeField] private List<Vector4> _dataCords;
     [SerializeField] private Material _marerial;
-    int randomo;
+
+    [SerializeField] private GameObject prefabCast;
+    [SerializeField] private Vector3 _coordHit;
+    [SerializeField] private Material _marerialRefresh;
+    int counter=0;
+    int counterColor = 0;
     private Color _colorDis;
     // Start is called before the first frame update
     void Start()
     {
 
-        _data.Add(new Vector4(-0.4f, -0.3f,0,0));
-        _data.Add(new Vector4(0.1f, 0.1f,0,0));
-        _data.Add(new Vector4(0.1f,0.3f,0,0));
         
- 
-        _colorArray.Add(new Color(0.1f,0.1f,0.3f,1));
-        _colorArray.Add(new Color(0.3f, 0.1f, 0.1f, 1));
-        _colorArray.Add(new Color(0.1f, 0.3f, 0.1f, 1));
-        _marerial.SetVectorArray("_vectorCoord", _data);
-        _marerial.SetColorArray("_coolorArray", _colorArray);
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        _colorDis = new Color (_spheres[0].transform.position.x, _spheres[0].transform.position.y, _spheres[0].transform.position.z);
-        _marerial.SetColor("_DistortColor", _colorDis);
+        int counterColor = 0;
+        foreach (GameObject i in _spheres)
+        {
+            i.GetComponent<Renderer>().material.color = new Color(i.transform.position.x, i.transform.position.y, i.transform.position.z,1);
+            _colorArray[counterColor] = i.GetComponent<Renderer>().material.color;
+            counterColor++;
+        }
+        _marerial.SetColorArray("_colorArray", _colorArray);
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
        
+        _coordHit = new Vector3(collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
+        _spheres.Add(Instantiate(prefabCast, _coordHit+10*transform.up,Quaternion.Euler(0,0,0)));
+        _dataCords[counter]= (new Vector4(_coordHit.x, _coordHit.z, 0, 0));
+        _colorArray[counter]=(_spheres[_spheres.Count - 1].GetComponent<Renderer>().material.color);        
+        _marerial.SetColorArray("_colorArray", _colorArray);
+        _marerial.SetVectorArray("_vectorCords", _dataCords);
+        counter++;
+
+
+    }
+    private void newCord()
+    { 
     }
 }
