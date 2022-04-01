@@ -5,7 +5,8 @@ using UnityEngine;
 public class Depletion : MonoBehaviour
 {
     [SerializeField] private GameObject MySoilFormationRef;
-    [SerializeField] public float mineralsLack;
+    public float mineralsLack;
+    public float radius;//для визуального потемнения почвы
     [SerializeField] public float lackMaximum; //будет висеть на объекте на сцене, с которого копировать будем
 
     [SerializeField] private LayerMask SoilLayer; //для SoilFormationRef
@@ -17,10 +18,13 @@ public class Depletion : MonoBehaviour
     List<float> A = new List<float>(); //создаем список значений доступных минералов. Неправильные названия. Сделай их говорящими, а не А, F
     [SerializeField] private LayerMask FertilizerLayer;
     [SerializeField] private float timeRemaining = 10;
+
+    public static List<GameObject> Depletions = new List<GameObject>();//лист со всеми Depletion-s на сцене. Объекты типа GameObject
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Depletions.Add(gameObject);//пополняем лист. При уничтожении объекта, объект из листа не удаляется ИМЕТЬ ВВИДУ
     }
 
     private void DepRegenarition() 
@@ -110,11 +114,11 @@ public class Depletion : MonoBehaviour
         A.Clear();
     }
 
-    private void OnDrawGizmosSelected()//отрисовка OverlapSphere для GetMySoilFormationRef()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(SFCenter, SFRadius);
-    }
+    //private void OnDrawGizmosSelected()//отрисовка OverlapSphere для GetMySoilFormationRef()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(SFCenter, SFRadius);
+    //}
 
     private void GetMySoilFormationRef()
     {

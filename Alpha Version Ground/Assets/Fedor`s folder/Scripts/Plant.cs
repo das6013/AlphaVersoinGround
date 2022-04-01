@@ -20,6 +20,11 @@ public class Plant : MonoBehaviour
     public LayerMask rootsLayerMask;//для rootsSystem
     public LayerMask depletionLayerMask;
 
+    //Для системы роста
+    public float levelOfGrow;
+    public GameObject TreeRef;//вставить сюда дерево Бориса
+    //GeneratorApi gen = new GeneratorApi(gameObject);
+    //---------------------
 
     List<Fertilizer> F = new List<Fertilizer>();//создаем cписок пересекающихся с растением X fertilizers 
     List<float> Fc = new List<float>();//создаем список connection-ов для растения X
@@ -51,7 +56,6 @@ public class Plant : MonoBehaviour
                 if (iterObjectHit.GetComponent<SoilFormation>() != null)
                 {
                     MySoilFormationRef = iterObjectHit;//вариант с GameObject, не с об. класса SoilFormation
-                    //Destroy(GetComponent<Rigidbody>());//пока использовал для теста - работает
                     SFFlag = 1;//пока ограничился одним, затем можно будет добавить логику для обновления привязки к слою земли.
                 }
             }
@@ -78,23 +82,23 @@ public class Plant : MonoBehaviour
         {
             for (int i = 0; i < F.Count; i++)//от сюда формируем список пересекщихся fert в данный промежуток времени (mineralsCPH)
             {
-                print(F[i].mineralsReserve + " " + F[i].radius);//вывод значений fertilizers 
-                print("Count " + F.Count);
+                //print(F[i].mineralsReserve + " " + F[i].radius);//вывод значений fertilizers 
+                //print("Count " + F.Count);
                 CreatingLists(F[i]);//создаем List-ы данных для фертов
                 iEll += 1;//итератор для метода CreatingLists, значения совпадают с порядком эл. в списке
             }
         }
-        else
+        else//Это нужно для случая 4.3, т.е. тогда, когда нет фертилайзеров, но нужно заспавнить деплишн
         {
-            FertilizingAlgorithm(); //то же самое как в деплешоне
+            FertilizingAlgorithm(); //то же самое как в деплешине
         }
     }
 
     // балансировка потребления из разных источников
     public void CreatingLists(Fertilizer x)//алгоритм заполнения списков удобрений (fertilizers)
     {
-        //connection = Mathf.Sqrt(Mathf.Pow((rootsCenter.x - x.transform.position.x), 2) + Mathf.Pow((rootsCenter.y - x.transform.position.y), 2) + Mathf.Pow((rootsCenter.z - x.transform.position.z), 2)) - x.radius - rootsRadius;
-        connection = Vector3.Distance(rootsCenter, x.transform.position);
+        connection = Mathf.Sqrt(Mathf.Pow((rootsCenter.x - x.transform.position.x), 2) + Mathf.Pow((rootsCenter.y - x.transform.position.y), 2) + Mathf.Pow((rootsCenter.z - x.transform.position.z), 2)) - x.radius - rootsRadius;
+        //connection = Vector3.Distance(rootsCenter, x.transform.position);//Это так не работает, нужно переделать под формулу выше
 
         if (connection < 0)
         {
@@ -105,10 +109,10 @@ public class Plant : MonoBehaviour
             connection = 0;
         }
         Fc.Add(connection);//заполняем список connection
-        print("connection " + Fc[iEll]);//проверка, удалить в фин. версии
+        //print("connection " + Fc[iEll]);//проверка, удалить в фин. версии
         // Ограничить consumption сверху
         C.Add(connection * consumptionModifier);//создаем список объёма потребления для растения X
-        print("multiplied connection " + C[iEll]);//проверка, удалить в фин. версии
+        //print("multiplied connection " + C[iEll]);//проверка, удалить в фин. версии
         float reserve = x.mineralsReserve;
         if (connection * consumptionModifier >= reserve)//смотрим уже на элемент из листа C
         {
@@ -118,7 +122,7 @@ public class Plant : MonoBehaviour
         {
             A.Add(connection * consumptionModifier);//совпадает с значением из C, можно переписать
         }
-        print("A " + A[iEll]);//проверка, удалить в фин. версии
+        //print("A " + A[iEll]);//проверка, удалить в фин. версии
         if (A.Count == F.Count)//когда заполним наши List-ы данных для всех пересеченных fert., вызовём алгоритм, считающий потребление minerals и тд
         {
             FertilizingAlgorithm();
@@ -131,7 +135,7 @@ public class Plant : MonoBehaviour
         foreach (float a in A)// тут избавиться от повторного вывода не получилось
         {
             summ += a;//находим сумму всех a из A
-            print("summ " + summ);
+            //print("summ " + summ);
         }
 
         if ((summ > mineralsConsumptionPerHour) & (summ < 2 * mineralsConsumptionPerHour))//Шаг 4, пункт 1
@@ -151,7 +155,7 @@ public class Plant : MonoBehaviour
             foreach (float a in A)//обновляем сумму
             {
                 summ += a;
-                print("new summ " + summ);
+                //print("new summ " + summ);
             }
         }
         else if (summ > 2 * mineralsConsumptionPerHour)//Шаг 4, пункт 2
@@ -165,7 +169,7 @@ public class Plant : MonoBehaviour
             foreach (float a in A)// тут избавиться от повторного вывода не получилось. Известно, что по формуле сумма будет равна 2*minCPH, но посчитаем на всякий
             {
                 summ += a;//находим сумму всех a из A
-                print("medium summ " + summ);
+               //print("medium summ " + summ);
             }
             minerals += summ;//шаг 5
             foreach (Fertilizer iter in F)
@@ -198,7 +202,7 @@ public class Plant : MonoBehaviour
                     if (iterObjectHit.GetComponent<Depletion>() != null)//выбираем только те объекты, которые имеют данный класс
                     {
                         DPL.Clear();//очищаем лист, т.к. у одного растения - один деплишн в момент времени. НАДО БУДЕТ УБРАТЬ ЛИСТЫ, хотя работает и так
-                        print("Count when finding a dep " + DPL.Count);//проверка
+                        //print("Count when finding a dep " + DPL.Count);//проверка
                         DPL.Add(iterObjectHit.GetComponent<Depletion>());//внесли очередной деп.
                     }
                 }
@@ -215,7 +219,7 @@ public class Plant : MonoBehaviour
                             DPL.Clear();//очищаем лист, т.к. у одного растения - один деплишн в момент времени. НАДО БУДЕТ УБРАТЬ ЛИСТЫ, хотя работает и так
                             //print("Count when finding a dep " + DPL.Count);//проверка
                             DPL.Add(iterObjectHit2.GetComponent<Depletion>());//внесли очередной деп.
-                            print("Ver 2" + DPL.Count);
+                            //print("Ver 2" + DPL.Count);
                         }
                     }
                     
@@ -229,7 +233,7 @@ public class Plant : MonoBehaviour
                 if (DPL[i].lackMaximum >= mineralsConsumptionPerHour + DPL[i].mineralsLack)
                 {
                     minerals += mineralsConsumptionPerHour;
-                    print("Podschet v plante"+minerals);
+                    //print("Podschet v plante"+minerals);
                     if ((mineralsConsumptionPerHour - summ) <= DPL[i].lackMaximum)
                     {
                         DPL[i].mineralsLack += (mineralsConsumptionPerHour - summ);
@@ -241,7 +245,7 @@ public class Plant : MonoBehaviour
                 }
                 else
                 {
-                    print("mineralsCPH+mineralsLack is more then Maximum ");
+                    //print("mineralsCPH+mineralsLack is more then Maximum ");
                 }
                 i += 1;
             }
@@ -259,9 +263,17 @@ public class Plant : MonoBehaviour
             foreach (float a in A)//обновляем сумму
             {
                 summ += a;
-                print("new summ " + summ);
+                //print("new summ " + summ);
             }
         }
+        levelOfGrow = minerals / 100;//переводим в доли (на полный рост яблока или растения)
+        
+        if (levelOfGrow >= 1)
+        {
+            levelOfGrow = 1;
+            minerals = 0;//потратили на рост
+        }
+        //gen.SetLevelOfGrow(levelOfGrow);//Тут будет метод Бориса 
         A.Clear();
         Fc.Clear();
         C.Clear();

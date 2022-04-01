@@ -19,7 +19,7 @@ public class Decay : MonoBehaviour
         while (timer > 0)
         {
             timer -= Time.deltaTime;
-            print(timer);
+            //print(timer);
             yield return null;
         }
         SpawnFetilizer();

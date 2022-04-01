@@ -9,6 +9,11 @@ public class Fertilizer : MonoBehaviour
     public float mineralsReserve;
     public float radius;
 
+    public static List<GameObject> Fertilizers = new List<GameObject>();//лист со всеми Fertilizer-s на сцене. Объекты типа GameObject
+    private void Start()
+    {
+        Fertilizers.Add(gameObject);//пополняем лист. При уничтожении объекта, объект из листа не удаляется ИМЕТЬ ВВИДУ
+    }
     // Start is called before the first frame update
     void Update()
     {
