@@ -9,16 +9,17 @@ public class Fertilizer : MonoBehaviour
     public float mineralsReserve;
     public float radius;
 
-    public static List<GameObject> Fertilizers = new List<GameObject>();//лист со всеми Fertilizer-s на сцене. Объекты типа GameObject
+    public static List<GameObject> Fertilizers_Depletions = new List<GameObject>();//лист со всеми Fertilizer-s на сцене. Объекты типа GameObject
     private void Start()
     {
-        Fertilizers.Add(gameObject);//пополняем лист. При уничтожении объекта, объект из листа не удаляется ИМЕТЬ ВВИДУ
+        Fertilizers_Depletions.Add(gameObject);//пополняем лист. При уничтожении объекта, объект из листа не удаляется ИМЕТЬ ВВИДУ
     }
     // Start is called before the first frame update
     void Update()
     {
         if (mineralsReserve < 0.25)
         {
+            //Fertilizer.Fertilizers_Depletions.Remove(gameObject);
             Destroy(gameObject, .5f);//Тут его быть не должно, куда его переместить - пока не понятно
         }
     }

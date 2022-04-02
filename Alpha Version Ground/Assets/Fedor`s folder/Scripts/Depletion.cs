@@ -19,12 +19,10 @@ public class Depletion : MonoBehaviour
     [SerializeField] private LayerMask FertilizerLayer;
     [SerializeField] private float timeRemaining = 10;
 
-    public static List<GameObject> Depletions = new List<GameObject>();//лист со всеми Depletion-s на сцене. Объекты типа GameObject
-
     // Start is called before the first frame update
     void Start()
     {
-        Depletions.Add(gameObject);//пополняем лист. При уничтожении объекта, объект из листа не удаляется ИМЕТЬ ВВИДУ
+        Fertilizer.Fertilizers_Depletions.Add(gameObject);//пополняем лист. При уничтожении объекта, объект из листа не удаляется ИМЕТЬ ВВИДУ
     }
 
     private void DepRegenarition() 
@@ -33,6 +31,7 @@ public class Depletion : MonoBehaviour
         mineralsLack -= 2;
         if (mineralsLack <= 0.25)
         {
+            //Fertilizer.Fertilizers_Depletions.Remove(gameObject);
             Destroy(gameObject, .5f);
         }
     }
