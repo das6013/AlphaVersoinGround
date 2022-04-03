@@ -54,34 +54,37 @@ public class TerraForming : MonoBehaviour
 
     {
         int counterColor = 0;
-        
-        
+
+
         foreach (GameObject i in test)
         {
-           
-            
-            if (i.GetComponent<Fertilizer>() != null )
+
+
+            if (i.GetComponent<Fertilizer>() != null)
             {
                 changeColorDeplition = -i.GetComponent<Fertilizer>().mineralsReserve * 0.1f;
             }
-            else if (i.GetComponent<Depletion>() != null ) 
+            else if (i.GetComponent<Depletion>() != null)
             {
                 changeColorDeplition = i.GetComponent<Depletion>().mineralsLack * 0.1f;
             }
-          
+
             _colorArray[counterColor] = new Color(changeColorDeplition * 0.1f, changeColorDeplition * 0.1f, changeColorDeplition * 0.1f, 1);
-            if (i.GetComponent<Fertilizer>() != null )
+            if (i.GetComponent<Fertilizer>() != null)
             {
                 radiusArray[counterColor] = i.GetComponent<Fertilizer>().radius * 0.1f;
             }
-            else if (i.GetComponent<Depletion>() != null )
+            else if (i.GetComponent<Depletion>() != null)
             {
                 radiusArray[counterColor] = i.GetComponent<Depletion>().radius * 0.1f;
             }
-     
-            _dataCords[counterColor] = new Vector4(i.transform.position.x*0.2f, i.transform.position.z*0.2f, 0, 0);
+
+            _dataCords[counterColor] = new Vector4(i.transform.position.x * 0.2f, i.transform.position.z * 0.2f, 0, 0);
             counterColor++;
         }
+        _dataCords[counterColor] = new Vector4(100, 100, 0, 0);
+        _colorArray[counterColor] = new Vector4(4, 4, 4, 4);
+        radiusArray[counterColor] = 0.1f;
         _marerial.SetColorArray("_colorArray", _colorArray);
         _marerial.SetVectorArray("_vectorCords", _dataCords);
         _marerial.SetFloatArray("_radius", radiusArray);
@@ -90,10 +93,12 @@ public class TerraForming : MonoBehaviour
     {
         _dataCords[num] = new Vector4(0,0, 0, 0);
         radiusArray[num] = 0;
-        _colorArray[counterColor] = new Color(0, 0, 0, 0);
+        _colorArray[num] = new Color(0, 0, 0, 0);
         _marerial.SetColorArray("_colorArray", _colorArray);
         _marerial.SetVectorArray("_vectorCords", _dataCords);
         _marerial.SetFloatArray("_radius", radiusArray);
 
     }
+ 
+
 }

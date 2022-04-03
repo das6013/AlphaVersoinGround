@@ -84,6 +84,7 @@ Shader "Unlit/TerraForming"
                     {
                      iter = smoothstep(_radius[j],_radius[j]-0.1, distance);
                     }
+                   
                     
                     col.rgb += _Color2;
                     col.rgb += (_DistortColor+_colorArray[j]*0.1) * iter;
