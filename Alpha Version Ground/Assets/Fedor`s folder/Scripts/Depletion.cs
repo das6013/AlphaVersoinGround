@@ -32,7 +32,7 @@ public class Depletion : MonoBehaviour
         if (mineralsLack <= 0.25)
         {
             Fertilizer.deleteFertilizers_Depletions(gameObject);
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
