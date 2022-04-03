@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MySoilFormationRef: {fileID: 0}
-  mineralsReserve: 10
+  mineralsReserve: 50
   radius: 2
 --- !u!54 &7262248697767823335
 Rigidbody:

@@ -33,13 +33,26 @@ public class Plant : MonoBehaviour
     List<Depletion> DPL = new List<Depletion>();//лист для Depletion (по логике деплишн всегда один и лист не нужен,  но пока так)
 
     int iEll = 0;//итератор для метода CreatingLists - общий, дабы считать листы корректно
-    public float timeRemaining = 10; //время для питания растения
+    [SerializeField] private float tick = 10;
+    [SerializeField] private float timeRemaining; //время для питания растения
     [SerializeField] private int firstDepletionSphere = 1;//флаг для пункта 4.3
 
     [SerializeField] private GameObject MySoilFormationRef;//для SoilFormationRef
     [SerializeField] private LayerMask SoilLayer;//для SoilFormationRef
     private int SFFlag = 0;//для SoilFormationRef
 
+    private GeneratorApi genApi;
+    private FruitsApi fruitApi;
+    [SerializeField] GameObject applePref;
+
+    float levelOfGrowOld;
+
+    private void Awake()
+    {
+        genApi = new GeneratorApi(gameObject);
+        fruitApi = new FruitsApi(gameObject, applePref);
+        timeRemaining = tick;
+    }
     private void OnDrawGizmosSelected()//отрисовка OverlapSphere для rootsSystem
     {
         Gizmos.color = Color.red;
@@ -266,14 +279,24 @@ public class Plant : MonoBehaviour
                 //print("new summ " + summ);
             }
         }
-        levelOfGrow = minerals / 100;//переводим в доли (на полный рост яблока или растения)
+
+        levelOfGrow = Mathf.Abs(levelOfGrowOld - minerals / 100);
+        levelOfGrow = Mathf.Round(levelOfGrow * 100) / 100;
+        levelOfGrowOld = levelOfGrowOld + levelOfGrow;
         
-        if (levelOfGrow >= 1)
+        //переводим в доли (на полный рост яблока или растения)
+
+        if (minerals >= 100 && genApi.isGrowed == false)
         {
             levelOfGrow = 1;
+            levelOfGrowOld = 0;
             minerals = 0;//потратили на рост
         }
-        //gen.SetLevelOfGrow(levelOfGrow);//Тут будет метод Бориса 
+        genApi.SetLevelOfGrow(levelOfGrow);//Тут будет метод Бориса 
+        if(fruitApi.fruits.Count < 5)
+            fruitApi.spawnFruit();
+        fruitApi.fruitsGrowUp(levelOfGrow);
+        //levelOfGrow = 0;
         A.Clear();
         Fc.Clear();
         C.Clear();
@@ -293,7 +316,7 @@ public class Plant : MonoBehaviour
         else
         {
             CheckForFertilizers(); // Лучше названание вроде ProccedFertilizerAlgoritm
-            timeRemaining = 10;
+            timeRemaining = tick;
         }
     }
 }
