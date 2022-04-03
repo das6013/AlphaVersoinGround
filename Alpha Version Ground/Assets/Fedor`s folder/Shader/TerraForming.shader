@@ -47,6 +47,7 @@ Shader "Unlit/TerraForming"
             fixed4 _Color2;
             sampler2D  _SubTex;
             float2 uv;
+            float iter=0;
             float _radius[10];
             float2 startuv;
             fixed2 _vectorCords[10];
@@ -79,7 +80,11 @@ Shader "Unlit/TerraForming"
                     }
                     float2 distort = uv;
                     float distance = length(distort);
-                    float iter = smoothstep(_radius[j],_radius[j]-0.1, distance);
+                    if (_radius[j]!=0)
+                    {
+                     iter = smoothstep(_radius[j],_radius[j]-0.1, distance);
+                    }
+                    
                     col.rgb += _Color2;
                     col.rgb += (_DistortColor+_colorArray[j]*0.1) * iter;
                     }

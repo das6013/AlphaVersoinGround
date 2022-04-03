@@ -31,8 +31,8 @@ public class Depletion : MonoBehaviour
         mineralsLack -= 2;
         if (mineralsLack <= 0.25)
         {
-            //Fertilizer.Fertilizers_Depletions.Remove(gameObject);
-            Destroy(gameObject, .5f);
+            Fertilizer.deleteFertilizers_Depletions(gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -108,7 +108,11 @@ public class Depletion : MonoBehaviour
         }
         if (mineralsLack <= 0.25)//удаление Depletion при восстановлении запаса минералов
         {
-            Destroy(gameObject, .5f);
+            Fertilizer.deleteFertilizers_Depletions(gameObject);
+           
+            
+           
+
         }
         A.Clear();
     }

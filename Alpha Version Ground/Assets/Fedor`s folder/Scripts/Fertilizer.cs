@@ -19,8 +19,11 @@ public class Fertilizer : MonoBehaviour
     {
         if (mineralsReserve < 0.25)
         {
-            //Fertilizer.Fertilizers_Depletions.Remove(gameObject);
-            Destroy(gameObject, .5f);//Тут его быть не должно, куда его переместить - пока не понятно
+            deleteFertilizers_Depletions(gameObject);
+          
+           
+            
+            
         }
     }
     private void OnTriggerEnter(Collider col)//Изменения получения MySoilFormationRef. Для этого добавил RigidBody в Префаб
@@ -29,5 +32,16 @@ public class Fertilizer : MonoBehaviour
         {
             MySoilFormationRef = col.gameObject;
         }
+    }
+    static public void deleteFertilizers_Depletions(GameObject del)
+    {
+        GameObject buffer;
+        buffer = del;
+        Fertilizer.Fertilizers_Depletions[Fertilizer.Fertilizers_Depletions.IndexOf(del)]= Fertilizer.Fertilizers_Depletions[Fertilizer.Fertilizers_Depletions.Count-1];
+        Fertilizer.Fertilizers_Depletions[Fertilizer.Fertilizers_Depletions.Count - 1] = del;
+        Fertilizer.Fertilizers_Depletions.Remove(del);
+        Fertilizer.Fertilizers_Depletions.Capacity -= 1;
+        Destroy(del);
+
     }
 }

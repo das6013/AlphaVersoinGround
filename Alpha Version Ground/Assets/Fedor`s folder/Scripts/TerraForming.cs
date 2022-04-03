@@ -8,20 +8,22 @@ public class TerraForming : MonoBehaviour
     [SerializeField] private List<Color> _colorArray;
     [SerializeField] private List<Vector4> _dataCords;
     [SerializeField] private Material _marerial;
-    [SerializeField] private List<float> radiusArray; 
-    [SerializeField] private Vector3 _coordHit;
+    [SerializeField] public List<float> radiusArray; 
     float changeColorDeplition;
     int counterColor = 0;
+    int counter = 0;
     private Color _colorDis;
     // Start is called before the first frame update
     void Start()
     {
-       
+        _allObjectsFizual = Fertilizer.Fertilizers_Depletions;
+        counter = Fertilizer.Fertilizers_Depletions.Capacity;
+
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {   
         visualGenerate(Fertilizer.Fertilizers_Depletions);
     }
 
@@ -42,25 +44,31 @@ public class TerraForming : MonoBehaviour
 
     {
         int counterColor = 0;
+        
+        
         foreach (GameObject i in test)
         {
-            if (i.GetComponent<Fertilizer>() != null)
+           
+            
+            if (i.GetComponent<Fertilizer>() != null )
             {
                 changeColorDeplition = -i.GetComponent<Fertilizer>().mineralsReserve * 0.1f;
             }
-            else if (i.GetComponent<Depletion>() != null) 
+            else if (i.GetComponent<Depletion>() != null ) 
             {
                 changeColorDeplition = i.GetComponent<Depletion>().mineralsLack * 0.1f;
             }
+          
             _colorArray[counterColor] = new Color(changeColorDeplition * 0.1f, changeColorDeplition * 0.1f, changeColorDeplition * 0.1f, 1);
-            if (i.GetComponent<Fertilizer>() != null) 
+            if (i.GetComponent<Fertilizer>() != null )
             {
-                radiusArray[counterColor] = i.GetComponent<Fertilizer>().radius*0.1f;
+                radiusArray[counterColor] = i.GetComponent<Fertilizer>().radius * 0.1f;
             }
-            else if (i.GetComponent<Depletion>() != null)
+            else if (i.GetComponent<Depletion>() != null )
             {
-                radiusArray[counterColor] = i.GetComponent<Depletion>().radius*0.1f;
+                radiusArray[counterColor] = i.GetComponent<Depletion>().radius * 0.1f;
             }
+     
             _dataCords[counterColor] = new Vector4(i.transform.position.x*0.2f, i.transform.position.z*0.2f, 0, 0);
             counterColor++;
         }
@@ -68,4 +76,5 @@ public class TerraForming : MonoBehaviour
         _marerial.SetVectorArray("_vectorCords", _dataCords);
         _marerial.SetFloatArray("_radius", radiusArray);
     }
+    
 }
