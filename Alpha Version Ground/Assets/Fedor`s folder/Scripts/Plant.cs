@@ -187,7 +187,11 @@ public class Plant : MonoBehaviour
             minerals += summ;//шаг 5
             foreach (Fertilizer iter in F)
             {
-                F[j].mineralsReserve -= A[j];
+                if (F[j].mineralsReserve >=0.8f)
+                    StartCoroutine(chageValueGradual(F[j].mineralsReserve, F[j].mineralsReserve - A[j],j));
+               
+                //F[j].mineralsReserve -= A[j];
+
                 if (F[j].mineralsReserve == 0)
                 {
                     A[j] = F[j].mineralsReserve;
@@ -249,11 +253,13 @@ public class Plant : MonoBehaviour
                     //print("Podschet v plante"+minerals);
                     if ((mineralsConsumptionPerHour - summ) <= DPL[i].lackMaximum)
                     {
+                        //chageValueGradualDep(DPL[i].mineralsLack, DPL[i].mineralsLack + (mineralsConsumptionPerHour - summ), i);
                         DPL[i].mineralsLack += (mineralsConsumptionPerHour - summ);
                     }
                     else
                     {
                         DPL[i].mineralsLack += DPL[i].lackMaximum;
+                        //chageValueGradualDep(DPL[i].mineralsLack, DPL[i].mineralsLack + DPL[i].lackMaximum, i);
                     }
                 }
                 else
@@ -279,23 +285,29 @@ public class Plant : MonoBehaviour
                 //print("new summ " + summ);
             }
         }
-
-        levelOfGrow = Mathf.Abs(levelOfGrowOld - minerals / 100);
-        levelOfGrow = Mathf.Round(levelOfGrow * 100) / 100;
-        levelOfGrowOld = levelOfGrowOld + levelOfGrow;
         
+        levelOfGrow = Mathf.Abs(levelOfGrowOld - minerals / 100);
+       
+        levelOfGrow = Mathf.Round(levelOfGrow * 100) / 100;
+        if (levelOfGrow <= 0)
+            levelOfGrow = 0.01f;
+        levelOfGrowOld = levelOfGrowOld + levelOfGrow;
+       
+
         //переводим в доли (на полный рост яблока или растения)
 
         if (minerals >= 100 && genApi.isGrowed == false)
         {
             levelOfGrow = 1;
-            levelOfGrowOld = 0;
+            levelOfGrowOld = 0.0001f;
             minerals = 0;//потратили на рост
         }
+
         genApi.SetLevelOfGrow(levelOfGrow);//Тут будет метод Бориса 
         if(fruitApi.fruits.Count < 5)
             fruitApi.spawnFruit();
         fruitApi.fruitsGrowUp(levelOfGrow);
+
         //levelOfGrow = 0;
         A.Clear();
         Fc.Clear();
@@ -319,4 +331,47 @@ public class Plant : MonoBehaviour
             timeRemaining = tick;
         }
     }
+    IEnumerator chageValueGradual(float start,float end,int j)
+    {   
+            
+        start = (float)(int)start / 100;
+        end = (float)(int)start / 100;
+        float change = start - end;
+        F[j].mineralsReserve = (float)((int)F[j].mineralsReserve*100)/100;
+        Debug.Log(j);
+        for (float i = 0; i < change; i += 0.01f)
+        {
+           
+            F[j].mineralsReserve -= 0.1f;
+            yield return new WaitForSeconds(0.15f);
+        }
+    }
+     private bool  checkFer(GameObject del)
+    {
+        foreach (GameObject i in Fertilizer.Fertilizers_Depletions)
+        {
+            if (del == i.gameObject)
+                return true;
+
+        }
+        return false;
+    }
+    //private void delFer(GameObject del)
+    //{
+    //    F[F.Count].gameObject = del;
+
+    //}
+
+    //IEnumerator chageValueGradualDep(float start, float end, int j)
+    //{
+    //    start = (float)(int)start / 100;
+    //    end = (float)(int)start / 100;
+    //    float change = start - end;
+    //    for (float i = 0; i < change; i += 0.01f)
+    //    {
+    //        DPL[j].mineralsLack+=0.1f;
+    //        yield return new WaitForSeconds(0.15f);
+    //    }
+    //}
+
 }

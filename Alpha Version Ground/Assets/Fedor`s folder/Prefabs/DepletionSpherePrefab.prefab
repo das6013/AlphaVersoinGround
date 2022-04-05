@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MySoilFormationRef: {fileID: 0}
   mineralsLack: 0
-  radius: 2
+  radius: 4
   lackMaximum: 30
   SoilLayer:
     serializedVersion: 2

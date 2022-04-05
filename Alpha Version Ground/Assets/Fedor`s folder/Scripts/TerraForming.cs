@@ -27,7 +27,7 @@ public class TerraForming : MonoBehaviour
     {   if (counter > Fertilizer.Fertilizers_Depletions.Count)
         {
             setDefult(counter - 1);
-            Debug.Log("kek");
+           
             counter -= 1;
         }
         else if (counter < Fertilizer.Fertilizers_Depletions.Count)
@@ -66,10 +66,10 @@ public class TerraForming : MonoBehaviour
             }
             else if (i.GetComponent<Depletion>() != null)
             {
-                changeColorDeplition = i.GetComponent<Depletion>().mineralsLack * 0.1f;
+                changeColorDeplition = i.GetComponent<Depletion>().mineralsLack*0.35f;
             }
 
-            _colorArray[counterColor] = new Color(changeColorDeplition * 0.1f, changeColorDeplition * 0.1f, changeColorDeplition * 0.1f, 1);
+            _colorArray[counterColor] = new Color(changeColorDeplition * 0.3f, changeColorDeplition * 0.3f, changeColorDeplition * 0.3f, 1);
             if (i.GetComponent<Fertilizer>() != null)
             {
                 radiusArray[counterColor] = i.GetComponent<Fertilizer>().radius * 0.1f;

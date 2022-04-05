@@ -48,10 +48,10 @@ Shader "Unlit/TerraForming"
             sampler2D  _SubTex;
             float2 uv;
             float iter=0;
-            float _radius[10];
+            float _radius[30];
             float2 startuv;
-            fixed2 _vectorCords[10];
-            fixed4 _colorArray[10];
+            fixed2 _vectorCords[30];
+            fixed4 _colorArray[30];
             
             v2f vert(appdata v)
             {
@@ -68,7 +68,7 @@ Shader "Unlit/TerraForming"
                    
                     uv=i.uv-5;
                     fixed4 col = tex2D(_MainTex, i.uv);
-                    for (int j=0;j<10;j++)
+                    for (int j=0;j<30;j++)
                     {
                    if (j==0){
                     uv[0]+=_vectorCords[j][0];
