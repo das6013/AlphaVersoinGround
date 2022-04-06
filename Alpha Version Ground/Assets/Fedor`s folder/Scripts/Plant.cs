@@ -346,21 +346,24 @@ public class Plant : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
         }
     }
-     private bool  checkFer(GameObject del)
+     private Fertilizer checkFer(Fertilizer del)
     {
         foreach (GameObject i in Fertilizer.Fertilizers_Depletions)
         {
-            if (del == i.gameObject)
-                return true;
+            if (del.gameObject == i)
+                return del;
 
         }
-        return false;
+        return null;
+        
     }
-    //private void delFer(GameObject del)
-    //{
-    //    F[F.Count].gameObject = del;
-
-    //}
+    private void delFer(Fertilizer del)
+    {
+        Fertilizer buffer=del;
+        F[F.IndexOf(del)] = F[F.Count - 1];
+        F[F.Count - 1] = buffer;
+        F.Capacity -= 1;
+    }
 
     //IEnumerator chageValueGradualDep(float start, float end, int j)
     //{
