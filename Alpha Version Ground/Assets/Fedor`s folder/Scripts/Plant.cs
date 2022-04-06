@@ -161,7 +161,7 @@ public class Plant : MonoBehaviour
                 if (F[i].mineralsReserve == 0)//когда запас иссякнет, изменим A[i] на ноль.
                 {
                     A[i] = F[i].mineralsReserve;
-                } 
+                }
                 i += 1;
             }
             summ = 0;//обнулим сумму, пересчитаем её заново
@@ -174,7 +174,7 @@ public class Plant : MonoBehaviour
         else if (summ > 2 * mineralsConsumptionPerHour)//Шаг 4, пункт 2
         {
             int j = 0;
-            for (int i= 0; i < A.Count; i++)//перезаполняем элементы листа A
+            for (int i = 0; i < A.Count; i++)//перезаполняем элементы листа A
             {
                 A[i] = A[i] / (summ / (2 * mineralsConsumptionPerHour));
             }
@@ -182,14 +182,14 @@ public class Plant : MonoBehaviour
             foreach (float a in A)// тут избавиться от повторного вывода не получилось. Известно, что по формуле сумма будет равна 2*minCPH, но посчитаем на всякий
             {
                 summ += a;//находим сумму всех a из A
-               //print("medium summ " + summ);
+                          //print("medium summ " + summ);
             }
             minerals += summ;//шаг 5
             foreach (Fertilizer iter in F)
             {
-                if (F[j].mineralsReserve >=0.8f)
-                    StartCoroutine(chageValueGradual(F[j].mineralsReserve, F[j].mineralsReserve - A[j],j));
-               
+                if (F[j].mineralsReserve >= 0.8f)
+                    StartCoroutine(chageValueGradual(F[j].mineralsReserve, F[j].mineralsReserve - A[j], j));
+
                 //F[j].mineralsReserve -= A[j];
 
                 if (F[j].mineralsReserve == 0)
@@ -209,7 +209,7 @@ public class Plant : MonoBehaviour
                 Dpc = GameObject.Find("DepletionHolder").GetComponent<DepletionCreator>();// попробовать перенсти в корень класса
                 Dpc.CreateDepletionSphere(rootsCenter, rootsRadius);
                 firstDepletionSphere = 0;
-            } 
+            }
             Collider[] hitColliders = Physics.OverlapSphere(rootsCenter, rootsRadius, depletionLayerMask);// оверлап сфера для поиска деплишн
             foreach (var iter in hitColliders)
             {
@@ -285,18 +285,18 @@ public class Plant : MonoBehaviour
                 //print("new summ " + summ);
             }
         }
-        
-        levelOfGrow = Mathf.Abs(levelOfGrowOld - minerals / 100);
-       
+
+        levelOfGrow = Mathf.Abs(levelOfGrowOld - minerals / 100);//Переводим в доли -> будет правильно работать только для чисел <=100, при 100 обнулим дальше
+
         levelOfGrow = Mathf.Round(levelOfGrow * 100) / 100;
         if (levelOfGrow <= 0)
             levelOfGrow = 0.01f;
         levelOfGrowOld = levelOfGrowOld + levelOfGrow;
-       
+
 
         //переводим в доли (на полный рост яблока или растения)
 
-        if (minerals >= 100 && genApi.isGrowed == false)
+        if (minerals >= 100)//&& genApi.isGrowed == false)//КОСТЫЛЬ см выше. Повторное присвоение флага isGrowed не страшно
         {
             levelOfGrow = 1;
             levelOfGrowOld = 0.0001f;
@@ -304,7 +304,7 @@ public class Plant : MonoBehaviour
         }
 
         genApi.SetLevelOfGrow(levelOfGrow);//Тут будет метод Бориса 
-        if(fruitApi.fruits.Count < 5)
+        if (fruitApi.fruits.Count < 5)
             fruitApi.spawnFruit();
         fruitApi.fruitsGrowUp(levelOfGrow);
 
@@ -331,35 +331,37 @@ public class Plant : MonoBehaviour
             timeRemaining = tick;
         }
     }
-    IEnumerator chageValueGradual(float start,float end,int j)
-    {   
-            
+    IEnumerator chageValueGradual(float start, float end, int j)
+    {
+
         start = (float)(int)start / 100;
         end = (float)(int)start / 100;
         float change = start - end;
-        F[j].mineralsReserve = (float)((int)F[j].mineralsReserve*100)/100;
-        Debug.Log(j);
-        for (float i = 0; i < change; i += 0.01f)
-        {
-           
+        F[j].mineralsReserve = (float)((int)F[j].mineralsReserve * 100) / 100;
+         
+        
+            for (float i = 0; i < change; i += 0.1f)
+            {
+
             F[j].mineralsReserve -= 0.1f;
-            yield return new WaitForSeconds(0.15f);
-        }
+                yield return new WaitForSeconds(0.05f);
+            }
+       
     }
-     private Fertilizer checkFer(Fertilizer del)
+    private int checkFer(Fertilizer del)
     {
         foreach (GameObject i in Fertilizer.Fertilizers_Depletions)
         {
             if (del.gameObject == i)
-                return del;
+                return -1;
 
         }
-        return null;
-        
+        return F.IndexOf(del);
+
     }
     private void delFer(Fertilizer del)
     {
-        Fertilizer buffer=del;
+        Fertilizer buffer = del;
         F[F.IndexOf(del)] = F[F.Count - 1];
         F[F.Count - 1] = buffer;
         F.Capacity -= 1;
