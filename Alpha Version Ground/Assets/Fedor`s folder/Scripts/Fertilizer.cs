@@ -44,4 +44,8 @@ public class Fertilizer : MonoBehaviour
         Destroy(del);
 
     }
+    private void deleteFertilizer(GameObject del)
+    {
+        
+    }
 }

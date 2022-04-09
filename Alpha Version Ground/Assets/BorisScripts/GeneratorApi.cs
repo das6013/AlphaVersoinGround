@@ -19,7 +19,7 @@ public class GeneratorApi : MonoBehaviour
         if (level > 0 && level <= 1)
         {
             int amount = (int)(level * 90);//hard coded 120 (in my opinion it's max distance from root that can be)
-            Debug.Log(amount);
+        
             gen.GrowUpOnAmount(amount);
         }
         else

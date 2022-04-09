@@ -167,9 +167,9 @@ public class Generator : MonoBehaviour {
                 if (maxDist < ex._distanceFromRoot)
                     maxDist = ex._distanceFromRoot;
             }
-            Debug.Log("max distance from root: " + maxDist);
+            
         }   
-        Debug.Log("Extremities count: " + _extremities.Count);
+    
     }
     public void LogicGrowing()
     {
@@ -380,11 +380,7 @@ public class Generator : MonoBehaviour {
             }
         }*/
         
-        Debug.Log("Branches count: " + _branches.Count);
-        Debug.Log("pBranches count: " + pBranch.Count);
-        Debug.Log("fruitBracnh count: "+fruitBranch.Count);
-        Debug.Log("Extremities count: "+ _extremities.Count);
-        Debug.Log("FruitPoints count: " + fruitPoints.Count);
+     
     }
 	public void ToMesh () {
 		Mesh treeMesh = new Mesh();
