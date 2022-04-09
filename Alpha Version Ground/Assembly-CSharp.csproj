@@ -53,25 +53,24 @@
     <UnityVersion>2020.3.23f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Fedor`s folder\Scripts\Plant.cs" />
-    <Compile Include="Assets\BorisScripts\FruitsApi.cs" />
-    <Compile Include="Assets\BorisScripts\MeshGeneration.cs" />
-    <Compile Include="Assets\BorisScripts\GeneratorApi.cs" />
-    <Compile Include="Assets\BorisScripts\TreeDrawer.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\Fertilizer.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\DepletionCreator.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\TerraForming.cs" />
-    <Compile Include="Assets\BorisScripts\FruitL.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\Misc\SphereCaster.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\SoilFormation.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\Misc\BrickWall.cs" />
-    <Compile Include="Assets\BorisScripts\SomeCode.cs" />
-    <Compile Include="Assets\BorisScripts\Generator.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\Depletion.cs" />
-    <Compile Include="Assets\Fedor`s folder\Scripts\Decay.cs" />
+    <Compile Include="Assets\Scripts\Tree.cs" />
+    <Compile Include="Assets\Scripts\Plant.cs" />
+    <Compile Include="Assets\Scripts\FruitsApi.cs" />
+    <Compile Include="Assets\Scripts\MeshGeneration.cs" />
+    <Compile Include="Assets\Scripts\GeneratorApi.cs" />
+    <Compile Include="Assets\Scripts\TreeDrawer.cs" />
+    <Compile Include="Assets\Scripts\Fertilizer.cs" />
+    <Compile Include="Assets\Scripts\DepletionCreator.cs" />
+    <Compile Include="Assets\Scripts\TerraForming.cs" />
+    <Compile Include="Assets\Scripts\FruitL.cs" />
+    <Compile Include="Assets\Scripts\SoilFormation.cs" />
+    <Compile Include="Assets\Scripts\SomeCode.cs" />
+    <Compile Include="Assets\Scripts\Generator.cs" />
+    <Compile Include="Assets\Scripts\Depletion.cs" />
+    <Compile Include="Assets\Scripts\Decay.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Fedor`s folder\Shader\TerraForming.shader" />
+    <None Include="Assets\Shader\TerraForming.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
